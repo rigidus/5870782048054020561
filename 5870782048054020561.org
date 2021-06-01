@@ -1,0 +1,56 @@
+#+STARTUP: showall indent hidestars
+
+* Constructor
+
+Есть только 9000 аватаров, они распродаются, когда
+hasSaleStarted==true. Распродажу можно поставить на паузу, если ты owner.
+
+Есть также METADATA_PROVENANCE_HASH [TODO:gmm] - зачем?
+
+Когда выполняется конструктор FeeReceiver-ом становится msgg.sender
+([TODO:gmm] - почему не tx.origin?)
+
+В конструктор минтится токен с ID=0. Но внутри [NOTE:gmm] _safeMint:1466
+есть ~require~, который идет последней строчкой в функции. Т.е. токен будет
+сначада заминчен, а потом require может сработать если не удалось сделать
+трансфер на адрес. Можно ли тогда забрать как-то потом этот токен?
+
+При минтинге вызывается:
+-  _beforeTokenTransfer(address(0), to, tokenId);
+-  _holderTokens[to].add(tokenId);
+-  _tokenOwners.set(tokenId, to);
+
+[TODO:gmm] - Проверить правильная ли это последовательность при работе с
+NFT?
+
+[NOTE:gmm] функция _beforeTokenTransfer:1624 пуста, в ней нет хуков,
+почему бы ее не выкинуть тогда в компайл-тайме, лишний вызов тратит газ,
+или это не так для ~internal~ ~virtual~ функций?
+
+[TODO:gmm] - Надо ли проверять библиотечные функции и ERC721-контракты?
+
+* tokensOfOwner
+
+Просто возвращает массив индексов токенов принадлежащих овнеру, внутри
+есть цикл но в нем нет внешних вызовов
+
+* calculatePrice
+
+[NOTE:gmm]:1964 - Если аватаров больше максимума, сэйл не закрывается,
+просто экспетится по ~require~.
+
+[NOTE:gmm]:1965 - Если срабатывает, то всегда возвращает 0.05 BNB - в чем
+смысл?
+
+* summonAvatar
+
+По-видимому функция минтит набор NFT с помощью _safeMint.
+
+[NOTE:gmm]:1972 -опечатка, имелось ввиду supply?
+
+* OnyOwner functuons
+
+[TODO:gmm] - Зачем нужен ProvenanceHash?
+
+[NOTE:gmm] function withdrawAll() public payable onlyOwner содержит
+только require, я не понимаю почему
