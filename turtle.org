@@ -1,0 +1,30 @@
+https://github.com/turtle-finance/smart-contracts/blob/master/Token.sol
+
+23::
+что значит просто "this;" в этой строке?
+
+maxTransferAmount::734
+return totalSupply().mul(maxTransferAmountRate).div(10000);
+Может ли получится ноль, и может ли он быть использован где-то где он не
+ожидался?
+
+Что такое GSN meta-transactions?
+
+
+771:: emit OperatorTransferred(_operator, newOperator);
+772::_operator = newOperator;
+Кажется логичнее было бы поменять местами?
+
+780::require(_maxTransferAmountRate <= 10000,
+Тут возможно лучше сделать через константу или переменную
+
+https://github.com/turtle-finance/smart-contracts/blob/master/Timelock.sol
+
+
+271:: // XXX: function() external payable { }
+272:: receive() external payable { }
+Не понимаю, что значит такая декларация внутри класса, но без
+function-кейворда в начале строки?
+
+Функция setPendingAdmin, в случае если admin_initialized=true должна быть
+вызвана только из этого контракта, но ее вызовов нигде нет. Что-то упущено?
