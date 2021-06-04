@@ -27,4 +27,26 @@ https://github.com/turtle-finance/smart-contracts/blob/master/Timelock.sol
 function-кейворда в начале строки?
 
 Функция setPendingAdmin, в случае если admin_initialized=true должна быть
-вызвана только из этого контракта, но ее вызовов нигде нет. Что-то упущено?
+вызвана только из этого контракта, но ее вызовов нигде нет. Что-то
+упущено?
+
+https://github.com/turtle-finance/smart-contracts/blob/master/MasterChef.sol
+
+880:: // Add a new lp to the pool. Can only be called by the owner.
+Но в самом методе я не вижу ничего ограничивающего - вызвать может кто
+угодно?
+
+981:: in function updatePool:
+turtle.mint(devaddr, turtleReward.div(12));
+захардкоженная константа? то же в 984
+
+989:: function deposit проверяет не все инварианты в if, вроде бы это не
+аффектит ничего т.к. в результате получается ноль, но стоит
+перепроверить, когда я лучше пойму как работает весь контракт
+
+1024:: (function withdraw): require(user.amount >= _amount, "withdraw: not good");
+Либо сравнение не в ту сторону, либо задумка в том, чтобы нельзя было
+вывести все что есть?
+
+1065-1071:: При трансферах лучше бы сначала уменьшать исходящий счет, а
+потом делать трансфер?
